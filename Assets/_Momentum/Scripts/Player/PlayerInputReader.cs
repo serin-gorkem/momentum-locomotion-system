@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public sealed class PlayerInputReader : MonoBehaviour
 {
     [SerializeField]
@@ -25,7 +24,6 @@ public sealed class PlayerInputReader : MonoBehaviour
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
-        Debug.Log($"Move: {MoveInput}");
     }
 
     private void OnMoveCanceled(InputAction.CallbackContext context)
