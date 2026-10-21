@@ -1,10 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public sealed class PlayerInputReader : MonoBehaviour
 {
-    [SerializeField]
-    private InputActionReference moveAction;
-    public Vector2 MoveInput { get; private set; }
+    [SerializeField] InputActionReference moveAction;
+    public Vector2 moveInput { get; private set; }
+
+    private void OnMovePerformed(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+    private void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        moveInput = Vector2.zero;
+    }
 
     private void OnEnable()
     {
@@ -21,13 +30,4 @@ public sealed class PlayerInputReader : MonoBehaviour
 
         moveAction.action.Disable();
     }
-    private void OnMovePerformed(InputAction.CallbackContext context)
-    {
-        MoveInput = context.ReadValue<Vector2>();
-    }
-
-    private void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        MoveInput = Vector2.zero;
-    }   
 }

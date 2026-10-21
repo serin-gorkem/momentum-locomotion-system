@@ -640,9 +640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   inputReader: {fileID: 1841375779}
   playerMotor: {fileID: 1841375781}
-  maxSpeed: 20
-  acceleration: 20
-  deceleration: 25
+  config: {fileID: 11400000, guid: 1200fe2ab826348ff926e59d390d6dd8, type: 2}
 --- !u!114 &1841375781
 MonoBehaviour:
   m_ObjectHideFlags: 0

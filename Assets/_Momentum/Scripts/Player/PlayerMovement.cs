@@ -3,16 +3,15 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] PlayerInputReader inputReader;
     [SerializeField] PlayerMotor playerMotor;
-    [SerializeField] private float maxSpeed = 5f;
-    [SerializeField] private float acceleration = 20f;
-    [SerializeField] private float deceleration = 25f;
+    [SerializeField]
+    private MovementConfig config;
 
     //Runtime STATE thats why its not SerializeField.
     private Vector3 currentVelocity;
 
     void Update()
     {
-        Vector2 input = inputReader.MoveInput;
+        Vector2 input = inputReader.moveInput;
 
         Vector3 direction = new Vector3(
             input.x,
@@ -20,13 +19,13 @@ public class PlayerMovement : MonoBehaviour
             input.y
         );
         Vector3 clampedDirection = Vector3.ClampMagnitude(direction, 1f);
-        Vector3 targetVelocity = clampedDirection * maxSpeed;
+        Vector3 targetVelocity = clampedDirection * config.MaxSpeed;
 
         bool hasMovementInput = direction.sqrMagnitude > 0f;
         float velocityChangeRate =
             hasMovementInput
-            ? acceleration
-            : deceleration;
+            ? config.Acceleration
+            : config.Deceleration;
 
         currentVelocity = Vector3.MoveTowards(
             currentVelocity,
@@ -37,6 +36,5 @@ public class PlayerMovement : MonoBehaviour
         Vector3 displacement = currentVelocity * Time.deltaTime;
 
         playerMotor.Move(displacement);
-
     }
 }
