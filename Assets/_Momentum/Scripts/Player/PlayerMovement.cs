@@ -67,7 +67,6 @@ public class PlayerMovement : MonoBehaviour
 
         playerMotor.Move(displacement);
         UpdateMovementState();
-        Debug.Log($"State: {CurrentState}");
     }
 
     private void UpdateMovementState()
