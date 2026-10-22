@@ -4,12 +4,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] PlayerInputReader inputReader;
     [SerializeField] PlayerMotor playerMotor;
-    [SerializeField]
-    private MovementConfig config;
-
+    [SerializeField] private MovementConfig config;
     // Runtime state
     private Vector3 horizontalVelocity;
     private float verticalVelocity;
+    public PlayerMovementState CurrentState { get; private set; }
 
     void Update()
     {
@@ -67,6 +66,23 @@ public class PlayerMovement : MonoBehaviour
         Vector3 displacement = velocity * Time.deltaTime;
 
         playerMotor.Move(displacement);
-        Debug.Log($"Grounded: {playerMotor.IsGrounded}");
+        UpdateMovementState();
+        Debug.Log($"State: {CurrentState}");
+    }
+
+    private void UpdateMovementState()
+    {
+        if (playerMotor.IsGrounded)
+        {
+            CurrentState = PlayerMovementState.Grounded;
+        }
+        else if (!playerMotor.IsGrounded && verticalVelocity > 0)
+        {
+            CurrentState = PlayerMovementState.Rising;
+        }
+        else
+        {
+            CurrentState = PlayerMovementState.Falling;
+        }
     }
 }
