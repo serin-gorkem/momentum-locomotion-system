@@ -24,16 +24,27 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetVelocity = clampedDirection * config.MaxSpeed;
 
         bool hasMovementInput = direction.sqrMagnitude > 0f;
-        float velocityChangeRate =
-            hasMovementInput
-            ? config.Acceleration
-            : config.Deceleration;
+        if (playerMotor.IsGrounded)
+        {
+            float groundChangeRate =
+                hasMovementInput
+                    ? config.Acceleration
+                    : config.Deceleration;
 
-        horizontalVelocity = Vector3.MoveTowards(
-            horizontalVelocity,
-            targetVelocity,
-            velocityChangeRate * Time.deltaTime
-        );
+            horizontalVelocity = Vector3.MoveTowards(
+                horizontalVelocity,
+                targetVelocity,
+                groundChangeRate * Time.deltaTime
+            );
+        }
+        else if (hasMovementInput)
+        {
+            horizontalVelocity = Vector3.MoveTowards(
+                horizontalVelocity,
+                targetVelocity,
+                config.AirAcceleration * Time.deltaTime
+            );
+        }
 
         if (playerMotor.IsGrounded && verticalVelocity < 0f)
         {
@@ -48,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
              config.Gravity
             );
         }
-        
+
         verticalVelocity += config.Gravity * Time.deltaTime;
 
         Vector3 velocity = horizontalVelocity + Vector3.up * verticalVelocity;
