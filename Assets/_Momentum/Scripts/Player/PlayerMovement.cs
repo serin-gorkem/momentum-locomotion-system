@@ -6,8 +6,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private MovementConfig config;
 
-    //Runtime STATE thats why its not SerializeField.
-    private Vector3 currentVelocity;
+    // Runtime state
+    private Vector3 horizontalVelocity;
+    private float verticalVelocity;
 
     void Update()
     {
@@ -27,14 +28,26 @@ public class PlayerMovement : MonoBehaviour
             ? config.Acceleration
             : config.Deceleration;
 
-        currentVelocity = Vector3.MoveTowards(
-            currentVelocity,
+        horizontalVelocity = Vector3.MoveTowards(
+            horizontalVelocity,
             targetVelocity,
             velocityChangeRate * Time.deltaTime
         );
 
-        Vector3 displacement = currentVelocity * Time.deltaTime;
+        if(playerMotor.IsGrounded && verticalVelocity < 0f)
+        {
+            verticalVelocity = config.GroundedForce;
+        }
+        else
+        {
+            verticalVelocity += config.Gravity * Time.deltaTime;
+        }
+
+        Vector3 velocity = horizontalVelocity + Vector3.up * verticalVelocity;
+
+        Vector3 displacement = velocity * Time.deltaTime;
 
         playerMotor.Move(displacement);
+        Debug.Log($"Grounded: {playerMotor.IsGrounded}");
     }
 }

@@ -15,3 +15,5 @@ MonoBehaviour:
   maxSpeed: 50
   acceleration: 10
   deceleration: 25
+  gravity: -10
+  groundedForce: -2
