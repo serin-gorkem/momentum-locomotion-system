@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,14 +35,21 @@ public class PlayerMovement : MonoBehaviour
             velocityChangeRate * Time.deltaTime
         );
 
-        if(playerMotor.IsGrounded && verticalVelocity < 0f)
+        if (playerMotor.IsGrounded && verticalVelocity < 0f)
         {
             verticalVelocity = config.GroundedForce;
         }
-        else
+
+        if (inputReader.JumpPressedThisFrame && playerMotor.IsGrounded)
         {
-            verticalVelocity += config.Gravity * Time.deltaTime;
+            verticalVelocity = Mathf.Sqrt(
+             config.JumpHeight *
+             -2f *
+             config.Gravity
+            );
         }
+        
+        verticalVelocity += config.Gravity * Time.deltaTime;
 
         Vector3 velocity = horizontalVelocity + Vector3.up * verticalVelocity;
 

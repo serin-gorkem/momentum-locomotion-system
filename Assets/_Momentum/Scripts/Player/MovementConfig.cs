@@ -21,9 +21,12 @@ public sealed class MovementConfig : ScriptableObject
     [SerializeField]
     private float groundedForce = -2f;
 
+    [SerializeField, Min(0f)]
+    private float jumpHeight = 2f;
     public float Gravity => gravity;
     public float GroundedForce => groundedForce;
     public float MaxSpeed => maxSpeed;
     public float Acceleration => acceleration;
     public float Deceleration => deceleration;
+    public float JumpHeight => jumpHeight;
 }

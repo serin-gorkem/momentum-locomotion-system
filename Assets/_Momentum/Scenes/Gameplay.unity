@@ -626,6 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputReader
   moveAction: {fileID: 7649594246886412243, guid: b1b7ecb8145d94ce0955922c876f4606, type: 3}
+  jumpAction: {fileID: 228331864080294417, guid: b1b7ecb8145d94ce0955922c876f4606, type: 3}
 --- !u!114 &1841375780
 MonoBehaviour:
   m_ObjectHideFlags: 0

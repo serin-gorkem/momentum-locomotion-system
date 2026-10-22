@@ -3,8 +3,14 @@ using UnityEngine.InputSystem;
 
 public sealed class PlayerInputReader : MonoBehaviour
 {
-    [SerializeField] InputActionReference moveAction;
+    [SerializeField]
+    InputActionReference moveAction;
+
+    [SerializeField]
+    private InputActionReference jumpAction;
     public Vector2 moveInput { get; private set; }
+    public bool JumpPressedThisFrame =>
+        jumpAction.action.WasPressedThisFrame();
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
@@ -21,6 +27,7 @@ public sealed class PlayerInputReader : MonoBehaviour
         moveAction.action.canceled += OnMoveCanceled;
 
         moveAction.action.Enable();
+        jumpAction.action.Enable();
     }
 
     private void OnDisable()
@@ -29,5 +36,6 @@ public sealed class PlayerInputReader : MonoBehaviour
         moveAction.action.canceled -= OnMoveCanceled;
 
         moveAction.action.Disable();
+        jumpAction.action.Disable();
     }
 }
